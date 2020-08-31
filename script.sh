@@ -9,6 +9,8 @@ do
 done
 echo 'Receiver ready...'
 
+sleep 2
+
 for h in $(cat data/sender)
 do
     h=$(echo $h | tr "%" " ")
@@ -22,6 +24,8 @@ echo 'Sending started...'
 
 time=$(cat data/time)
 sleep $time
+
+sleep 2
 
 for h in $(cat data/receiver)
 do
