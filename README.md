@@ -6,6 +6,8 @@ Utilizzo libreria D-ITG per creare script che permetta di automatizzare la creaz
 
 
 Prossimi miglioramenti: 
+
+aggiungere scelta password
 creare tipologie di flussi predefiniti
 
 con dec generare packet loss 

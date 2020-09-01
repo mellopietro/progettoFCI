@@ -5,7 +5,9 @@ screen -dmS ITGLog ITGLog
 for h in $(cat data/receiver)
 do
     d=$(echo $h | tr "_" " ")
-    sshpass -p "123456" ssh -o StrictHostKeyChecking=no $d "screen -dmS ITGRecv ITGRecv"
+    IFS='&'
+    read -a d <<< "$d"
+    sshpass -p ${d[1]} ssh -o StrictHostKeyChecking=no ${d[0]} "screen -dmS ITGRecv ITGRecv"
 done
 echo 'Receiver ready...'
 
@@ -17,9 +19,12 @@ do
     IFS=' '
     read -a d <<< "$h"
     name=$(echo ${d[0]} | tr "_" " ")
+    IFS='&'
+    read -a name <<< "$name"
     parameters=$(echo ${d[1]} | tr "_" " ")
-    sshpass -p "123456" ssh -o StrictHostKeyChecking=no $name "screen -dmS ITGSend ITGSend $parameters"
+    sshpass -p ${name[1]} ssh -o StrictHostKeyChecking=no ${name[0]} "screen -dmS ITGSend ITGSend $parameters"
 done
+
 echo 'Sending started...'
 
 time=$(cat data/time)
