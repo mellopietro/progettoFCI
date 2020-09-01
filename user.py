@@ -148,7 +148,6 @@ while True:
         recv.write(h+' ')
     
     dMax = max(int(d),dMax)
-    num = num + 1
     answer = input('Other flows? y/n: ')
     if answer == 'n':
         break
@@ -160,3 +159,6 @@ dMax = dMax/1000
 time = open('data/time','w')
 time.write(str(dMax))
 time.close()
+file = open('data/number','w')
+file.write(str(num))
+file.close()

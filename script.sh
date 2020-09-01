@@ -37,9 +37,19 @@ done
 
 screen -S ITGLog -X quit
 
+h=$(cat data/number)
+for((i=0;i<h;i++))
+do
+    ITGDec results/send$i.log -p 1000 results/send$i.dat
+    ITGDec results/recv$i.log -p 1000 results/recv$i.dat
+done
+
+python3 result.py
+
 rm data/receiver
 rm data/sender
 rm data/time
+rm result/*
 
 echo 'Sending done!'
 
