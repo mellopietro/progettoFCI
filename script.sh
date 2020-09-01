@@ -7,7 +7,7 @@ do
     d=$(echo $h | tr "_" " ")
     IFS='&'
     read -a d <<< "$d"
-    sshpass -p ${d[1]} ssh -o StrictHostKeyChecking=no ${d[0]} "screen -dmS ITGRecv ITGRecv"
+    sshpass -p "${d[1]}" ssh -o StrictHostKeyChecking=no ${d[0]} "screen -dmS ITGRecv ITGRecv"
 done
 echo 'Receiver ready...'
 
@@ -22,7 +22,7 @@ do
     IFS='&'
     read -a name <<< "$name"
     parameters=$(echo ${d[1]} | tr "_" " ")
-    sshpass -p ${name[1]} ssh -o StrictHostKeyChecking=no ${name[0]} "screen -dmS ITGSend ITGSend $parameters"
+    sshpass -p "${name[1]}" ssh -o StrictHostKeyChecking=no ${name[0]} "screen -dmS ITGSend ITGSend $parameters"
 done
 
 echo 'Sending started...'
@@ -35,7 +35,9 @@ sleep 2
 for h in $(cat data/receiver)
 do
     d=$(echo $h | tr "_" " ")
-    sshpass -p "123456" ssh $d "screen -S ITGRecv -X quit"
+    IFS='&'
+    read -a d <<< "$d"
+    sshpass -p "${d[1]}" ssh ${d[0]} "screen -S ITGRecv -X quit"
 done
 
 screen -S ITGLog -X quit

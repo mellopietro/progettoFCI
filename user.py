@@ -24,7 +24,7 @@ if answer == '1':
     file = open(name,'w')
     file.write(group)
     file.close()
-    print('File '+ name +' saved...\n')
+    print('File '+ name +' saved...')
 else:
     while True:
         name = input('Input the path of the host file: ')
@@ -66,7 +66,7 @@ for h in users:
 #Definizione file con all'interno i tipi di flussi
 
 while True:
-    path = input('Input the path of the flow file: ')
+    path = input('\nInput the path of the flow file: ')
     try:
         file = open(path,'r')
         flowFile = file.read()
