@@ -117,9 +117,7 @@ while True:
     R = users[receiver]
     R = R[R.index('@')+1:R.index(' ')]
 
-    print('\nDetails of the flow between '+S+' and '+R+': ')
-
-    print('Avalaible types of flow:')
+    print('\nAvalaible types of flow:')
     i = 0
     for flow in flows:
         print(str(i)+ ': '+flow)
