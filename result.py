@@ -1,11 +1,17 @@
 import numpy as np
+import pandas as pd
 
 file = open('data/number','r')
 n = int(file.read())
 file.close()
 
 while True:
-    name = input('Input the path of the host file: ')
+    try: 
+        file = open('data/hosts','r')
+        name =file.read()
+        file.close()
+    except:
+        name = input('Input the path of the host file: ')
     try:
         file = open(name,'r')
         group = file.read()
@@ -25,6 +31,10 @@ for i in range(len(users)):
 
 sA = []
 rA = []
+index = []
+column = []
+val = True
+
 for i in range(n):
     file = open('results/send'+str(i)+'.dat')
     send = file.read()
@@ -45,20 +55,28 @@ for i in range(n):
     sender = users.index(sender)
     receiver = users.index(receiver)
     for j in range(len(s)):
+        if val == True:
+            column.append('time: '+str(j))
         s[j] = s[j][s[j].index(' ')+1:]
         s[j] = s[j][:s[j].index(' ')]
         r[j] = r[j][r[j].index(' ')+1:]
         r[j] = r[j][:r[j].index(' ')]
+    val = False
     sA.append(s)
     rA.append(r)
+    index.append(str(sender)+'-'+str(receiver))
 
 sM = np.zeros((n,len(sA[0])),dtype='float')
-sR = np.zeros((n,len(rA[0])),dtype='float')
+rM = np.zeros((n,len(rA[0])),dtype='float')
+
 
 for i in range(n):
-    for j in range(len(sA[i])):
-        sM[i][j] = float(sA[i][j])
-        sR[i][j] = float(rA[i][j])
+    for j in range(len(sM[i])):
+        sM[i,j] = sA[i][j]
+        rM[i,j] = rA[i][j]
+    
+sP = pd.DataFrame(data=sM, index=index, columns=column)
+rP = pd.DataFrame(data=rM, index=index, columns=column)
 
 print(sM)
-print(sR)
+print(rM)

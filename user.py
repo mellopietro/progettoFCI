@@ -12,6 +12,11 @@ def addUser(group):
             break
     return group
 
+def saveHostName(name):
+    file = open('data/hosts','w')
+    file.write(name)
+    file.close()
+
 
 name = ''
 
@@ -21,6 +26,7 @@ if answer == '1':
     group = addUser(group)
     name = input('Name the created file: ')
     name = 'data/'+name+'.txt'
+    saveHostName(name)
     file = open(name,'w')
     file.write(group)
     file.close()
@@ -29,7 +35,7 @@ else:
     while True:
         name = input('Input the path of the host file: ')
         try:
-            file = open(name,'r')
+            file = open('data/' + name,'r')
             group = file.read()
             file.close()
             if('host_file' in group):
@@ -37,7 +43,7 @@ else:
             print('Can\'t find file, try again')
         except:
             print('Can\'t find file, try again')
-    
+    saveHostName('data/' + name)
 g = group[group.index('\n')+1:]
 users = g.split('\n')
 users = users[0:-1]
@@ -50,7 +56,7 @@ answer = input('\nDo you want to add users to this list? (y/n): ')
 
 if(answer == 'y'):
     group = addUser(group)
-    file = open(name,'w')
+    file = open('data/' + name,'w')
     file.write(group)
     file.close()
     print('File '+ name +' saved...\n')
@@ -68,7 +74,7 @@ for h in users:
 while True:
     path = input('\nInput the path of the flow file: ')
     try:
-        file = open(path,'r')
+        file = open('data/' + path,'r')
         flowFile = file.read()
         file.close()
         if 'flow_file' in flowFile:

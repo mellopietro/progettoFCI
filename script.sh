@@ -1,6 +1,6 @@
 #!/bin/bash
 python3 user.py
-screen -dmS ITGLog ITGLog
+screen -dmS ITGLog ITGLog -q 100
 
 for h in $(cat data/receiver)
 do
@@ -49,11 +49,10 @@ done
 
 python3 result.py
 
-sleep 2
-
 rm data/receiver
 rm data/sender
 rm data/time
+rm data/hosts
 rm results/*
 
 
