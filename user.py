@@ -145,7 +145,7 @@ while True:
     #send.write(users[sender].replace(' ','_')+'%-T_'+t+'_-a_'+R+'_-c_'+s+'_-C_'+pps+'_-t_'+d + '_-L_'+mainIp+'_TCP_-l_results/send'+str(num)+'.log_-X_'+mainIp+'_TCP_-x_results/recv'+str(num)+'.log ')
     
     for _ in range(amount):
-        send.write(users[sender].replace(' ','_') + '%-t_' + d + '_-a_' + R + '_' + flows[answer].replace(' ','_') + '_-L_'+mainIp+'_TCP_-l_results/send'+str(num)+'.log_-X_'+mainIp+'_TCP_-x_results/recv'+str(num)+'.log ')
+        send.write(users[sender].replace(' ','_') + '%-t_' + d + '_-a_' + R + '_' + flows[answer].replace(' ','_') + '_-X_'+mainIp+'_TCP_-x_results/recv'+str(num)+'.log ') #_-L_'+mainIp+'_TCP_-l_results/send'+str(num)+'.log
         num = num + 1
     
     if rec[receiver] == 0:

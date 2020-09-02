@@ -36,19 +36,19 @@ column = []
 val = True
 
 for i in range(n):
-    file = open('results/send'+str(i)+'.dat')
-    send = file.read()
-    file.close()
+    #file = open('results/send'+str(i)+'.dat')
+    #send = file.read()
+    #file.close()
     file = open('results/recv'+str(i)+'.dat')
     recv = file.read()
     file.close()
-    send = send[send.index('-')+1:]
-    sender = send[:send.index('-')]
-    send=send[send.index('-')+1:]
-    receiver = send[:send.index(' ')]
-    send=send[send.index('\n')+1:]
-    s = send.split('\n')
-    s = s[:-1]
+    #send=send[send.index('\n')+1:]
+    #s = send.split('\n')
+    #s = s[:-1]
+    recv = recv[recv.index('-')+1:]
+    sender = recv[:recv.index('-')]
+    recv=recv[recv.index('-')+1:]
+    receiver = recv[:recv.index(' ')]
     recv = recv[recv.index('\n')+1:]
     r = recv.split('\n')
     r = r[:-1]
@@ -57,26 +57,26 @@ for i in range(n):
     for j in range(len(s)):
         if val == True:
             column.append('time: '+str(j))
-        s[j] = s[j][s[j].index(' ')+1:]
-        s[j] = s[j][:s[j].index(' ')]
+        #s[j] = s[j][s[j].index(' ')+1:]
+        #s[j] = s[j][:s[j].index(' ')]
         r[j] = r[j][r[j].index(' ')+1:]
         r[j] = r[j][:r[j].index(' ')]
     val = False
-    sA.append(s)
+    #sA.append(s)
     rA.append(r)
     index.append(str(sender)+'-'+str(receiver))
 
-sM = np.zeros((n,len(sA[0])),dtype='float')
+#sM = np.zeros((n,len(sA[0])),dtype='float')
 rM = np.zeros((n,len(rA[0])),dtype='float')
 
 
 for i in range(n):
-    for j in range(len(sM[i])):
-        sM[i,j] = sA[i][j]
+    for j in range(len(sA[i])):
+        #sM[i,j] = sA[i][j]
         rM[i,j] = rA[i][j]
     
-sP = pd.DataFrame(data=sM, index=index, columns=column)
+#sP = pd.DataFrame(data=sM, index=index, columns=column)
 rP = pd.DataFrame(data=rM, index=index, columns=column)
 
-print(sM)
+#print(sM)
 print(rM)

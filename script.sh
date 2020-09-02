@@ -43,7 +43,7 @@ echo 'Computation started...'
 h=$(cat data/number)
 for((i=0;i<h;i++))
 do
-    ITGDec results/send$i.log -d 1000 results/send$i.dat
+    #ITGDec results/send$i.log -d 1000 results/send$i.dat
     ITGDec results/recv$i.log -d 1000 results/recv$i.dat
 done
 
