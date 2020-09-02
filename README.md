@@ -7,15 +7,12 @@ Utilizzo libreria D-ITG per creare script che permetta di automatizzare la creaz
 
 Prossimi miglioramenti: 
 
-aggiungere scelta password
-creare tipologie di flussi predefiniti
+aggiungere scelta password - fatto
+creare tipologie di flussi predefiniti - fatto
 
-con dec generare packet loss 
-matrice con flussi 
+con dec generare packet loss quindi matrice con flussi -parzialmente fatto
 
 pandas.io
 numpy
 
-mercoledì 9 al mattino alle 10
-
-deib terzo piano
+Appuntamento mercoledì 9 settembre al mattino alle 10 in edifico deib terzo piano

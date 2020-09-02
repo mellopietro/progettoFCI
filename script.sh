@@ -1,6 +1,6 @@
 #!/bin/bash
 python3 user.py
-screen -dmS ITGLog ITGLog -q 100
+screen -dmS ITGLog ITGLog
 
 for h in $(cat data/receiver)
 do

@@ -55,6 +55,11 @@ for i in range(n):
     r = r[:-1]
     sender = users.index(sender)
     receiver = users.index(receiver)
+    if lMax < len(r):
+        lMax = len(r)
+        val = True
+        column.clear()
+    
     for j in range(len(r)):
         if val == True:
             column.append('time: '+str(j))
@@ -66,7 +71,7 @@ for i in range(n):
     #sA.append(s)
     rA.append(r)
     index.append(str(sender)+'-'+str(receiver))
-    lMax = max(lMax,len(r))
+    
 
 #sM = np.zeros((n,len(sA[0])),dtype='float')
 rM = np.zeros((n,lMax),dtype='float')
@@ -74,11 +79,11 @@ rM = np.zeros((n,lMax),dtype='float')
 
 for i in range(n):
     for j in range(len(rA[i])):
-        #sM[i,j] = sA[i][j]
-        rM[i,j] = rA[i][j]
+        #sM[i,j] = float(sA[i][j])
+        rM[i,j] = float(rA[i][j])
     
 #sP = pd.DataFrame(data=sM, index=index, columns=column)
 rP = pd.DataFrame(data=rM, index=index, columns=column)
 
-#print(sM)
-print(rM)
+#print(sP)
+print(rP)
