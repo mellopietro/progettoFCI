@@ -37,19 +37,24 @@ done
 
 screen -S ITGLog -X quit
 
+echo 'Sending done!'
+echo 'Computation started...'
+
 h=$(cat data/number)
 for((i=0;i<h;i++))
 do
-    ITGDec results/send$i.log -p 1000 results/send$i.dat
-    ITGDec results/recv$i.log -p 1000 results/recv$i.dat
+    ITGDec results/send$i.log -d 1000 results/send$i.dat
+    ITGDec results/recv$i.log -d 1000 results/recv$i.dat
 done
 
 python3 result.py
 
+sleep 2
+
 rm data/receiver
 rm data/sender
 rm data/time
-rm result/*
+rm results/*
 
-echo 'Sending done!'
+
 
