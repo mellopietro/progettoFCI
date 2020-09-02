@@ -29,11 +29,12 @@ users = users[0:-1]
 for i in range(len(users)):
     users[i]=users[i][users[i].index('@')+1:users[i].index(' ')]
 
-sA = []
+#sA = []
 rA = []
 index = []
 column = []
 val = True
+lMax = 0
 
 for i in range(n):
     #file = open('results/send'+str(i)+'.dat')
@@ -54,7 +55,7 @@ for i in range(n):
     r = r[:-1]
     sender = users.index(sender)
     receiver = users.index(receiver)
-    for j in range(len(s)):
+    for j in range(len(r)):
         if val == True:
             column.append('time: '+str(j))
         #s[j] = s[j][s[j].index(' ')+1:]
@@ -65,13 +66,14 @@ for i in range(n):
     #sA.append(s)
     rA.append(r)
     index.append(str(sender)+'-'+str(receiver))
+    lMax = max(lMax,len(r))
 
 #sM = np.zeros((n,len(sA[0])),dtype='float')
-rM = np.zeros((n,len(rA[0])),dtype='float')
+rM = np.zeros((n,lMax),dtype='float')
 
 
 for i in range(n):
-    for j in range(len(sA[i])):
+    for j in range(len(rA[i])):
         #sM[i,j] = sA[i][j]
         rM[i,j] = rA[i][j]
     
