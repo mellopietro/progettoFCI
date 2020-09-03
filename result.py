@@ -84,6 +84,7 @@ for i in range(n):
     
 #sP = pd.DataFrame(data=sM, index=index, columns=column)
 rP = pd.DataFrame(data=rM, index=index, columns=column)
+rP.to_excel('output.xlsx')
 
 #print(sP)
 print(rP)

@@ -97,26 +97,36 @@ for flow in flows:
 
 mainIp = input('\nSet main pc IP address: ')
 
-num = 0
 dMax = 0
-send = open('data/sender','w')
-recv = open('data/receiver','w')
+
+sen = []
+rec = []
+s = []
+
+for i in range(len(users)):
+    sen.append(open('data/sender'+str(i),'w'))
+    log = open('data/logInfo'+str(i),'w')
+    log.write(users[i] + '%')
+    log.write('-X '+mainIp+' TCP -x results/recv'+str(i)+'.log') #_-L_'+mainIp+'_TCP_-l_results/send'+str(num)+'.log
+    log.close()
+    rec.append(0)
+    s.append(0)
 
 while True: 
     print('\nAvalaible hosts: ')
-    i = 0
-    rec = []
-    for h in users:
-        print(str(i)+': '+h[:h.index('&')])
-        i = i+1
-        rec.append(0)
+    for i in range(len(users)):
+        print(str(i)+': '+users[i][:users[i].index('&')])
+
     while True:
-        sd = input('\nSet a new flow between hosts in the form <sender>/<receiver> (ex: 0/1): ')
-        sender = int(sd[0:sd.index('/')])
-        receiver = int(sd[sd.index('/')+1:])
-        if sender<len(users) and receiver<len(users):
-            break
-        print('Error in the input...')
+        try:
+            sd = input('\nSet a new flow between hosts in the form <sender>/<receiver> (ex: 0/1): ')
+            sender = int(sd[0:sd.index('/')])
+            receiver = int(sd[sd.index('/')+1:])
+            if sender<len(users) and receiver<len(users):
+                break
+            print('Error in the input...')
+        except:
+            print('Error in the input...')
 
     S = users[sender]
     S = S[S.index('@')+1:S.index(' ')]
@@ -124,47 +134,46 @@ while True:
     R = R[R.index('@')+1:R.index(' ')]
 
     print('\nAvalaible types of flow:')
-    i = 0
-    for flow in flows:
-        print(str(i)+ ': '+flow)
-        i = i + 1
+    for i in range(len(flows)):
+        print(str(i) + ': ' + flows[i])
     
     while True:
-        answer = int(input('\nSelect the type of flow you want to generate: '))
-        if answer<len(flows):
-            break
-        print('Error in the input...')
+        try:
+            answer = int(input('\nSelect the type of flow you want to generate: '))
+            if answer<len(flows):
+                break
+            print('Error in the input...')
+        except:
+            print('Error in the input...')
 
-    d = input('Set the duration of the generation (in ms): ')
-    amount = int(input('Select the amount of ' + flows[answer] + ' flows to generate between '+S+' and '+R+': '))
 
-    #t = input('Set whether you want the traffic to be UDP or TCP: ')
-    #d = input('Set the duration of the generation (in ms): ')
-    #pps = input('Set the number of packets to generate per second: ')
-    #s = input('Set the size of each packet: ')
-    #send.write(users[sender].replace(' ','_')+'%-T_'+t+'_-a_'+R+'_-c_'+s+'_-C_'+pps+'_-t_'+d + '_-L_'+mainIp+'_TCP_-l_results/send'+str(num)+'.log_-X_'+mainIp+'_TCP_-x_results/recv'+str(num)+'.log ')
-    
+    d = int(input('Set the duration of the generation (in ms): '))
+    amount = int(input('Select the amount of ' + flows[answer] + ' to generate between '+S+' and '+R+': '))
+
     for _ in range(amount):
-        send.write(users[sender].replace(' ','_') + '%-t_' + d + '_-a_' + R + '_' + flows[answer].replace(' ','_') + '_-X_'+mainIp+'_TCP_-x_results/recv'+str(num)+'.log ') #_-L_'+mainIp+'_TCP_-l_results/send'+str(num)+'.log
-        num = num + 1
+        sen[sender].write('-t ' + str(d) + ' -a ' + R + ' ' + flows[answer] + '\n')
+
+    rec[receiver] = 1
+    s[sender] = 1
     
-    if rec[receiver] == 0:
-        rec[receiver]=1
-        h = users[receiver].replace(' ','_')
-        recv.write(h+' ')
     
     dMax = max(int(d),dMax)
     answer = input('Other flows? y/n: ')
     if answer == 'n':
         break
 
-send.close()
+on = open('data/on','w')
+recv = open('data/receiver','w')
+for i in range(len(users)):
+    if rec[i] == 1:
+        recv.write(users[i] + '%')
+    if s[i] == 1:
+        on.write(str(i) + ' ')
+    sen[i].close()
+on.close()
 recv.close()
 
 dMax = dMax/1000
 time = open('data/time','w')
 time.write(str(dMax))
 time.close()
-file = open('data/number','w')
-file.write(str(num))
-file.close()
