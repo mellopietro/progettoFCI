@@ -98,8 +98,7 @@ for flow in flows:
 mainIp = input('\nSet main pc IP address: ')
 
 dMax = 0
-tot = 0
-
+tot = []
 sen = []
 rec = []
 s = []
@@ -112,6 +111,7 @@ for i in range(len(users)):
     log.close()
     rec.append(0)
     s.append(0)
+    tot.append(0)
 
 while True: 
     print('\nAvalaible hosts: ')
@@ -153,7 +153,7 @@ while True:
 
     for _ in range(amount):
         sen[sender].write('-t ' + str(d) + ' -a ' + R + ' ' + flows[answer] + '\n')
-        tot = tot + 1
+        tot[sender] = tot[sender] + 1
 
     rec[receiver] = 1
     s[sender] = 1
@@ -163,6 +163,15 @@ while True:
     answer = input('Other flows? y/n: ')
     if answer == 'n':
         break
+
+while True:
+    print('\nType of extractions: \n-d: Average delay to file\n-j: Average jitter to file\n-b: Average bitrate to file\n-p: Average packet loss to file')
+    dato = input('\nWhat type of data do you want to extract from the file? ')
+    if dato == 'd' or dato == 'j' or dato == 'b' or dato == 'p':
+        break
+    print('Error in the input...')
+
+f = int(input('\nWhat rate of generation do you want? (ms): '))
 
 on = open('data/on','w')
 recv = open('data/receiver','w')
@@ -176,7 +185,7 @@ on.close()
 recv.close()
 
 dMax = dMax/1000
-dMax = dMax + tot
+dMax = dMax + max(tot)
 time = open('data/time','w')
-time.write(str(dMax))
+time.write(str(dMax) + ' ' + str(f) + ' ' + dato)
 time.close()

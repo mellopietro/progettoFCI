@@ -25,11 +25,9 @@ users = users[0:-1]
 for i in range(len(users)):
     users[i]=users[i][users[i].index('@')+1:users[i].index(' ')]
 
-#sA = []
 rA = []
 index = []
 column = []
-val = True
 lMax = 0
 
 for i in range(len(users)):
@@ -48,7 +46,6 @@ for i in range(len(users)):
         recv = recv[recv.index(' '):]
         if recv[:recv.index('\n')] == ' Aggregate-Flow':
             recv = recv[recv.index('\n')+1:]
-            print('Passato 1')
             break
 
     data = {'Flow': n, 'Sender': sender, 'Receiver': receiver}
