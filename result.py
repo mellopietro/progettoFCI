@@ -1,10 +1,6 @@
 import numpy as np
 import pandas as pd
 
-file = open('data/number','r')
-n = int(file.read())
-file.close()
-
 while True:
     try: 
         file = open('data/hosts','r')
@@ -36,55 +32,41 @@ column = []
 val = True
 lMax = 0
 
-for i in range(n):
-    #file = open('results/send'+str(i)+'.dat')
-    #send = file.read()
-    #file.close()
+for i in range(len(users)):
     file = open('results/recv'+str(i)+'.dat')
     recv = file.read()
     file.close()
-    #send=send[send.index('\n')+1:]
-    #s = send.split('\n')
-    #s = s[:-1]
-    recv = recv[recv.index('-')+1:]
-    sender = recv[:recv.index('-')]
-    recv=recv[recv.index('-')+1:]
-    receiver = recv[:recv.index(' ')]
-    recv = recv[recv.index('\n')+1:]
-    r = recv.split('\n')
-    r = r[:-1]
-    sender = users.index(sender)
-    receiver = users.index(receiver)
-    if lMax < len(r):
-        lMax = len(r)
-        val = True
-        column.clear()
+    n = []
+    sender = []
+    receiver = []
+    while True:
+        n.append(int(recv[recv.index(' ')+1:recv.index('-')]))
+        recv = recv[recv.index('-')+1:]
+        sender.append(recv[:recv.index('-')])
+        recv=recv[recv.index('-')+1:]
+        receiver.append(recv[:recv.index(' ')])
+        recv = recv[recv.index(' '):]
+        if recv[:recv.index('\n')] == ' Aggregate-Flow':
+            recv = recv[recv.index('\n')+1:]
+            print('Passato 1')
+            break
+
+    data = {'Flow': n, 'Sender': sender, 'Receiver': receiver}
+ 
+    col = recv.count('\n')
+
+    for _ in range(col):
+        t = 'Time ' + str(float(recv[:recv.index(' ')]))
+        recv = recv[recv.index(' ')+1:]
+        val = []
+        for _ in range(len(n)):
+            val.append(float(recv[:recv.index(' ')]))
+            recv = recv[recv.index(' ')+1:]
+        recv = recv[recv.index('\n')+1:]
+        data[t] = val
+
+    rP = pd.DataFrame(data,index=n)
+    rP = rP.sort_values(by=['Flow'])
+    print(rP)
+    rP.to_excel('results/recv'+str(i)+'.xlsx', index=False)
     
-    for j in range(len(r)):
-        if val == True:
-            column.append('time: '+str(j))
-        #s[j] = s[j][s[j].index(' ')+1:]
-        #s[j] = s[j][:s[j].index(' ')]
-        r[j] = r[j][r[j].index(' ')+1:]
-        r[j] = r[j][:r[j].index(' ')]
-    val = False
-    #sA.append(s)
-    rA.append(r)
-    index.append(str(sender)+'-'+str(receiver))
-    
-
-#sM = np.zeros((n,len(sA[0])),dtype='float')
-rM = np.zeros((n,lMax),dtype='float')
-
-
-for i in range(n):
-    for j in range(len(rA[i])):
-        #sM[i,j] = float(sA[i][j])
-        rM[i,j] = float(rA[i][j])
-    
-#sP = pd.DataFrame(data=sM, index=index, columns=column)
-rP = pd.DataFrame(data=rM, index=index, columns=column)
-rP.to_excel('output.xlsx')
-
-#print(sP)
-print(rP)

@@ -14,7 +14,7 @@ done
 
 echo 'Receiver ready...'
 
-sleep 2
+sleep 4
 
 on=$(cat data/on)
 
@@ -27,15 +27,13 @@ do
     sshpass -p "${n[1]}" ssh -o StrictHostKeyChecking=no ${n[0]} "screen -dmS ITGSend ITGSend sender${i} ${s[1]}"
     rm data/logInfo${i} data/sender${i}
     sshpass -p "${n[1]}" ssh -o StrictHostKeyChecking=no ${n[0]} "rm sender${i}"
-    
 done
 
 echo 'Sending started...'
 
 time=$(cat data/time)
 sleep $time
-
-sleep 2
+sleep 5
 
 readarray -d '%' -t rec <<< "$(cat data/receiver)"
 
@@ -52,15 +50,15 @@ echo 'Computation started...'
 
 for i in $on
 do
-    #ITGDec results/send$i.log -d 1000 results/send$i.dat
-    ITGDec results/recv$i.log -b 1000 results/recv$i.dat
+    ITGDec results/recv$i.log -b 1000 results/recv$i.dat > /dev/null 2>&1
 done
 
-#python3 result.py
+python3 result.py
 
 rm data/receiver
 rm data/time
 rm data/hosts
 rm data/on
 
-#rm results/*
+rm results/*.log
+rm results/*.dat

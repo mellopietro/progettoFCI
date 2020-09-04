@@ -98,6 +98,7 @@ for flow in flows:
 mainIp = input('\nSet main pc IP address: ')
 
 dMax = 0
+tot = 0
 
 sen = []
 rec = []
@@ -152,6 +153,7 @@ while True:
 
     for _ in range(amount):
         sen[sender].write('-t ' + str(d) + ' -a ' + R + ' ' + flows[answer] + '\n')
+        tot = tot + 1
 
     rec[receiver] = 1
     s[sender] = 1
@@ -174,6 +176,7 @@ on.close()
 recv.close()
 
 dMax = dMax/1000
+dMax = dMax + tot
 time = open('data/time','w')
 time.write(str(dMax))
 time.close()
